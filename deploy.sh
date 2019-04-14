@@ -8,7 +8,7 @@ BUNDLEDIR=target/bundle
 function bundle() {
     rm -f response.txt
 
-#    mvn clean package -DskipTests=true -Dnative=true -Dnative-image.docker-build=quay.io/quarkus/centos-quarkus-native-image:graalvm-1.0.0-rc15
+    mvn clean package -DskipTests=true -Dnative=true -Dnative-image.docker-build=quay.io/quarkus/centos-quarkus-native-image:graalvm-1.0.0-rc15
 
     mkdir -p ${BUNDLEDIR} target
     cp bootstrap ${BUNDLEDIR}/bootstrap
@@ -32,6 +32,8 @@ aws lambda create-function \
     --handler runner \
     --runtime provided \
     --role ${LAMBDA_ROLE_ARN}
+
+exit
 
 echo
 aws lambda invoke --function-name bash-runtime2 --payload '{"firstName":"James", "lastName": "Lipton"}' response.txt
